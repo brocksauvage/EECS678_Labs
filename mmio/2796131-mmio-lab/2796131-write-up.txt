@@ -1,0 +1,7 @@
+Brock Sauvage
+Lab 8 Write Up
+2796131
+
+1. To properly answer this question, we must first look at why the read_write method varies in completion time based upon the size of the buffer. Simply put, the shorter the buffer, the longer it will take to copy a file. This is because more read and write system calls will need to be made in order to complete the file copy, making the entire process take much longer. Additionally, the file will essentially need to be copied twice using this method: once to the buffer, and then another when writing to memory. In contrast, the memmap method only requires that the data be copied once: directly from kernal buffer space into the processes virtual memory space. This is why the memmap method takes much less time than using the standard read_write method.
+
+2. The fault in the code of the read_write method is that the buffer size is set, meaning that if the buffer is reading 10 bytes at a time from a file that is 105 bytes, it will read 5 extra bytes, causing the end file size to be not exact. This can be corrected by checking whether or not the end of the file has been reached and read. The read()  system call will return 0 and stop reading bytes when the end of a file is reached, so this can be utilized to achieve an exact ending filesize.
